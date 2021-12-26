@@ -5,7 +5,7 @@ def lambda_handler(event, context):
     #key1取得と桁分け前準備
     target_num=event['key1']
     #数字か確認
-    if not target_num.isnumeric():
+    if not target_num.isdigit():
         raise Exception("Parameter error. 'key1' is not a correct input")
     num_list=get_split2character(target_num)
     get_split_keta=get_split2keta(num_list)
