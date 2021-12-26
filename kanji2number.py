@@ -5,7 +5,7 @@ tais1 = '千百十'
 tais1_table=dict(zip(tais1, (10**(3-n) for n in range(3))))
 tais2 = '兆億万'
 tais2_table=dict(zip(tais2, (10000**(3-n)for n in range(3))))
-#print(tais2_table)
+
 def lambda_handler(event, context):
     # TODO implement
     #漢数字か確認
@@ -27,14 +27,13 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': json.dumps(ans_num)
     }
-    #raise Exception("Parameter error. 'key1' is not a correct input")
+
 def kan2num(text):
     text=text.replace('一', '壱').replace('二', '弐').replace('三', '参')
     try:
         ans_num=num_table[text]
     except:
         raise Exception("Parameter error. 'key1' is bad order")
-    #print(return_able)
     #'壱'->1
     return ans_num
     
@@ -75,25 +74,23 @@ def kanji2num_main(text):
     #変換のメインになる関数(0以外全部ここでやる)
     #ans_numに加算していく
     ans_num=0
-    #splitted_text=[]
     extracted_text=[]
+    #兆
     splitted_text=text.split('兆')
     if (len(splitted_text)>1 or (not text.find('兆')==-1)):
         extracted_text.append(splitted_text[0])
         ans_num+=int(split_small_keta(splitted_text[0]))*10**12
         #兆の桁変換:壱兆->10**12
-    print(ans_num)
+    #億
     splitted_text=splitted_text[-1].split('億')
     if (len(splitted_text)>1 or (not text.find('億')==-1)):
         extracted_text.append(str(split_small_keta(splitted_text[0])))
         #print('億なう')
-        #print(extracted_text)
         print(splitted_text)
         ans_num+=split_small_keta(splitted_text[0])*10**8
-    
+    #万
     splitted_text=splitted_text[-1].split('万')
     if (len(splitted_text)>1 or (not text.find('万')==-1)):
-        #print(splitted_text[0])
         extracted_text.append(str(split_small_keta(splitted_text[0])))
         #print('万なう')
         ans_num+=split_small_keta(splitted_text[0])*10**4
@@ -101,10 +98,9 @@ def kanji2num_main(text):
     else:
         print('koko'+splitted_text[0])
         ans_num+=split_small_keta(splitted_text[0])
-    
-    #if len(splitted_text)>1:
-        #splitted_text=splitted_text[]
-    
-    print(extracted_text)
-    print(ans_num)
+
     return ans_num
+"""
+endpoint:
+https://040qnq4pnc.execute-api.ap-northeast-1.amazonaws.com/v1/kanji2number/kanji?key1=五億七千万
+"""
